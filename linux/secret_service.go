@@ -1,7 +1,7 @@
 // Portions Copyright (c) 2014 Zalando SE — MIT
 //
 // Ported from github.com/zalando/go-keyring's secret_service package, with
-// github.com/godbus/dbus/v5 replaced by github.com/tinywasm/dbus. The call
+// github.com/godbus/dbus/v5 replaced by webtyp.com/dbus. The call
 // sequence, the attribute map and the prompt handling are reproduced as-is:
 // each of them is a behaviour real Secret Service daemons depend on.
 
@@ -10,12 +10,12 @@ package linux
 import (
 	"time"
 
-	"github.com/tinywasm/dbus"
-	"github.com/tinywasm/keyring"
+	"webtyp.com/dbus"
+	"webtyp.com/keyring"
 )
 
 // ObjectPath is the D-Bus object path type, aliased so this package's callers
-// need not import tinywasm/dbus directly.
+// need not import webtyp/dbus directly.
 type ObjectPath = dbus.ObjectPath
 
 // Conn is a session bus connection.

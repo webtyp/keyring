@@ -1,8 +1,8 @@
 package keyring
 
 // Scheme is the .env marker meaning "this value lives in the keyring, not on
-// disk" — e.g. IAM_CLIENT_SECRET=keyring://. tinywasm/env resolves it via
-// auto.OpenForModule; tinywasm/app's SECRETS section is how a developer fills
+// disk" — e.g. IAM_CLIENT_SECRET=keyring://. webtyp/env resolves it via
+// auto.OpenForModule; webtyp/app's SECRETS section is how a developer fills
 // it in. Full convention: KEYRING_DOTENV_MASTER_PLAN.md.
 const Scheme = "keyring://"
 

@@ -5,7 +5,7 @@ package browser
 import (
 	"syscall/js"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 var (

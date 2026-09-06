@@ -5,17 +5,17 @@ package browser
 import (
 	"syscall/js"
 
-	"github.com/tinywasm/await"
-	"github.com/tinywasm/webauthn"
+	"webtyp.com/await"
+	"webtyp.com/webauthn"
 )
 
 // prfSaltBytes is the fixed input to the authenticator's PRF, and it is what
 // makes the derived key reproducible across sessions.
 //
-// It is SHA-256("tinywasm/keyring/prf/v1"), hardcoded rather than hashed at
+// It is SHA-256("webtyp/keyring/prf/v1"), hardcoded rather than hashed at
 // runtime so no hash implementation is linked in for one constant. Verify with:
 //
-//	printf 'tinywasm/keyring/prf/v1' | sha256sum
+//	printf 'webtyp/keyring/prf/v1' | sha256sum
 //
 // CHANGING THESE BYTES ORPHANS EVERY SECRET wrapped under the old passkey KEK.
 var prfSaltBytes = []byte{
@@ -27,7 +27,7 @@ var prfSaltBytes = []byte{
 
 // hkdfInfoBytes separates this derivation from any other use of the same PRF
 // output. Fixed for the same reason as the salt.
-var hkdfInfoBytes = []byte("tinywasm/keyring/kek/v1")
+var hkdfInfoBytes = []byte("webtyp/keyring/kek/v1")
 
 // EnrollOptions describes the passkey to register as an unlock method.
 type EnrollOptions struct {

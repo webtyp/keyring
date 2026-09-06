@@ -11,8 +11,8 @@ links a line of `os/exec`, and a CLI never links `syscall/js`.
 
 ```go
 import (
-    "github.com/tinywasm/keyring"
-    "github.com/tinywasm/keyring/linux"
+    "webtyp.com/keyring"
+    "webtyp.com/keyring/linux"
 )
 
 kr, err := keyring.NewKeyring("my-app", linux.New())
@@ -28,7 +28,7 @@ A multiplatform CLI just wants "whatever this machine has". `keyring/auto`
 picks it, and is the only package in the repository that chooses:
 
 ```go
-import keyring "github.com/tinywasm/keyring/auto"
+import keyring "webtyp.com/keyring/auto"
 
 kr, err := keyring.NewKeyring("my-app") // Secret Service, Keychain,
                                         // Credential Manager or browser
@@ -37,7 +37,7 @@ kr, err := keyring.NewKeyring("my-app") // Secret Service, Keychain,
 A browser application does **not** import `auto` — it knows where it runs:
 
 ```go
-import "github.com/tinywasm/keyring/browser"
+import "webtyp.com/keyring/browser"
 
 kr := keyring.OpenKeyring("my-app", browser.New())
 ```
@@ -61,7 +61,7 @@ instead of encrypting in Go. Full threat model, including what it does *not*
 protect against: [docs/BROWSER_SECURITY.md](docs/BROWSER_SECURITY.md).
 
 `Set`/`Get`/`Delete` keep their synchronous signatures by blocking on
-`github.com/tinywasm/await`, so **they must be called from a goroutine**, never
+`webtyp.com/await`, so **they must be called from a goroutine**, never
 from the wasm main function or directly inside a JS event callback.
 
 ### No keyring on the machine?

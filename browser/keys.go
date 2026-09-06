@@ -5,8 +5,8 @@ package browser
 import (
 	"syscall/js"
 
-	"github.com/tinywasm/await"
-	"github.com/tinywasm/keyring"
+	"webtyp.com/await"
+	"webtyp.com/keyring"
 )
 
 func ensureKeys() (js.Value, error) {

@@ -3,7 +3,7 @@ package linux
 import (
 	"fmt"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 type Provider struct {

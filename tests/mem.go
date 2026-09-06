@@ -1,6 +1,6 @@
 package tests
 
-import "github.com/tinywasm/keyring"
+import "webtyp.com/keyring"
 
 // MemProvider is an in-memory Provider for tests. Err, when non-nil, is
 // returned by every method — use it to drive failure paths.

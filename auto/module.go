@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 const (

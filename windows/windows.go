@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 var (

@@ -3,8 +3,8 @@
 package auto
 
 import (
-	"github.com/tinywasm/keyring"
-	"github.com/tinywasm/keyring/browser"
+	"webtyp.com/keyring"
+	"webtyp.com/keyring/browser"
 )
 
 // Provider returns the WebCrypto/IndexedDB backend.

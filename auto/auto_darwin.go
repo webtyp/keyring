@@ -3,8 +3,8 @@
 package auto
 
 import (
-	"github.com/tinywasm/keyring"
-	"github.com/tinywasm/keyring/darwin"
+	"webtyp.com/keyring"
+	"webtyp.com/keyring/darwin"
 )
 
 // Provider returns the Keychain backend.

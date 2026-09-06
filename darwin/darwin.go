@@ -22,7 +22,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 type Provider struct{}

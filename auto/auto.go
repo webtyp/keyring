@@ -5,7 +5,7 @@
 // directly — a browser application imports keyring/browser, not this package.
 package auto
 
-import "github.com/tinywasm/keyring"
+import "webtyp.com/keyring"
 
 // Keyring is an alias so callers need only this import.
 type Keyring = keyring.Keyring

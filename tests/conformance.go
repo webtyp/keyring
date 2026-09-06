@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 // RunConformance asserts the full Provider contract against p. Every backend

@@ -11,10 +11,10 @@ REVIEWER: none
 ## Part of a multi-repo wave
 
 This is one piece of `KEYRING_DOTENV_MASTER_PLAN.md` (orchestrator:
-`github.com/tinywasm/app-releases`, `docs/KEYRING_DOTENV_MASTER_PLAN.md`). This
+`webtyp.com/app-releases`, `docs/KEYRING_DOTENV_MASTER_PLAN.md`). This
 piece has **no dependency on any other piece of that wave** — dispatch it
-immediately, in parallel with the `tinywasm/kvdb` and `tinywasm/tui` plans.
-`tinywasm/env` and `tinywasm/app` each depend on this publishing first.
+immediately, in parallel with the `webtyp/kvdb` and `webtyp/tui` plans.
+`webtyp/env` and `webtyp/app` each depend on this publishing first.
 
 ## Why
 
@@ -28,10 +28,10 @@ any consumer:
 1. Nothing names the marker string as a constant — every consumer would
    invent its own literal, and per this ecosystem's rule a consumer never
    re-derives a convention a library should own (see
-   `tinywasm/app-releases/docs/CONSTRUCTION_HARNESS.md`, "Lego pieces, never
+   `webtyp/app-releases/docs/CONSTRUCTION_HARNESS.md`, "Lego pieces, never
    forks").
 2. `OpenKeyring(service)` (in `keyring/auto`) requires the caller to already
-   know its `service` namespace. `tinywasm/env` and `tinywasm/app` both need
+   know its `service` namespace. `webtyp/env` and `webtyp/app` both need
    to scope by "whatever Go module the current project is" with zero
    configuration, so two different projects using the same variable name
    (`IAM_CLIENT_SECRET` in both `misitio` and some other consumer) never
@@ -45,8 +45,8 @@ any consumer:
 package keyring
 
 // Scheme is the .env marker meaning "this value lives in the keyring, not on
-// disk" — e.g. IAM_CLIENT_SECRET=keyring://. tinywasm/env resolves it via
-// auto.OpenForModule; tinywasm/app's SECRETS section is how a developer fills
+// disk" — e.g. IAM_CLIENT_SECRET=keyring://. webtyp/env resolves it via
+// auto.OpenForModule; webtyp/app's SECRETS section is how a developer fills
 // it in. Full convention: KEYRING_DOTENV_MASTER_PLAN.md.
 const Scheme = "keyring://"
 
@@ -65,7 +65,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 const (
@@ -130,7 +130,7 @@ error type for these two sentinels.
 - **`auto/module.go` is `!wasm` implicitly** — `os.ReadFile`/`filepath` already
   behave correctly there; do not add a build tag that does not already exist
   on the other files in `keyring/auto`.
-- Do not touch `tinywasm/env` or `tinywasm/app` in this plan — they are
+- Do not touch `webtyp/env` or `webtyp/app` in this plan — they are
   separate plans in the same wave that depend on this one.
 
 ## Tests
@@ -161,10 +161,10 @@ machine actually has"). So any test that calls `OpenForModule` and then
 
 | Test | Asserts |
 |---|---|
-| `TestFindModulePathFindsOwnGoMod` | `findModulePath(".")` run from this repo returns `"github.com/tinywasm/keyring"` (this repo's own `go.mod`) — no keychain involved, no skip needed |
-| `TestFindModulePathWalksUpFromSubdir` | `findModulePath("./auto")` (a subdirectory with no `go.mod` of its own) still returns `"github.com/tinywasm/keyring"` — no skip needed |
+| `TestFindModulePathFindsOwnGoMod` | `findModulePath(".")` run from this repo returns `"webtyp.com/keyring"` (this repo's own `go.mod`) — no keychain involved, no skip needed |
+| `TestFindModulePathWalksUpFromSubdir` | `findModulePath("./auto")` (a subdirectory with no `go.mod` of its own) still returns `"webtyp.com/keyring"` — no skip needed |
 | `TestFindModulePathNotFound` | `findModulePath(t.TempDir())` (an empty temp directory, no `go.mod` anywhere above it up to `/`) returns `ErrGoModNotFound` — no skip needed; if flaky under `/tmp` on a machine where a stray `go.mod` exists above the temp root, assert only that an error is returned, not which one |
-| `TestOpenForModuleUsesModulePath` | probe-and-skip as above; then `Set` a probe key through `OpenForModule(".")`'s result, `t.Cleanup` a `Delete` of it, and confirm `OpenKeyring("github.com/tinywasm/keyring")` (this repo's own module path, opened directly) reads back the same value — proving `OpenForModule` scoped to that exact service |
+| `TestOpenForModuleUsesModulePath` | probe-and-skip as above; then `Set` a probe key through `OpenForModule(".")`'s result, `t.Cleanup` a `Delete` of it, and confirm `OpenKeyring("webtyp.com/keyring")` (this repo's own module path, opened directly) reads back the same value — proving `OpenForModule` scoped to that exact service |
 
 ## Acceptance criteria
 
@@ -176,6 +176,6 @@ machine actually has"). So any test that calls `OpenForModule` and then
 
 ## Out of scope
 
-`tinywasm/env` resolving the marker, and `tinywasm/app`'s interactive section
+`webtyp/env` resolving the marker, and `webtyp/app`'s interactive section
 for filling in a missing secret — both are separate plans in this wave,
 dispatched once this one publishes.

@@ -3,8 +3,8 @@
 package auto
 
 import (
-	"github.com/tinywasm/keyring"
-	"github.com/tinywasm/keyring/linux"
+	"webtyp.com/keyring"
+	"webtyp.com/keyring/linux"
 )
 
 // Provider returns the Secret Service backend.

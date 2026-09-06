@@ -2,7 +2,7 @@
 
 package browser
 
-import "github.com/tinywasm/keyring"
+import "webtyp.com/keyring"
 
 const (
 	ErrPasskeyUnsupported keyring.Error = "keyring: authenticator does not support the prf extension"

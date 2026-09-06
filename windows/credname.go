@@ -3,7 +3,7 @@ package windows
 import (
 	"strings"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 const (

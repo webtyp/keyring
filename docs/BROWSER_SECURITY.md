@@ -21,12 +21,12 @@ key bytes away and use them tomorrow, offline, from another machine. For a
 one-shot XSS that is the difference between losing a session and losing the
 vault.
 
-## Why not `tinywasm/crypto`
+## Why not `webtyp/crypto`
 
 A key held by Go is a `[]byte` in wasm linear memory, and JS can read the whole
 of that memory (`new Uint8Array(instance.exports.mem.buffer)`). Non-extractable
 key material is therefore unreachable from any Go implementation — not a defect
-of `tinywasm/crypto`, a consequence of the wasm memory model. Delegating to
+of `webtyp/crypto`, a consequence of the wasm memory model. Delegating to
 WebCrypto is what buys the property, and it costs zero bytes of cipher code in
 the binary.
 
@@ -80,14 +80,14 @@ Two limits that shaped this design:
 
 | Value | Definition |
 |---|---|
-| PRF salt | `SHA-256("tinywasm/keyring/prf/v1")`, hardcoded in `browser/passkey.go` |
-| HKDF info | the ASCII bytes of `tinywasm/keyring/kek/v1` |
+| PRF salt | `SHA-256("webtyp/keyring/prf/v1")`, hardcoded in `browser/passkey.go` |
+| HKDF info | the ASCII bytes of `webtyp/keyring/kek/v1` |
 | HKDF salt | 32 random bytes generated once per enrolment, stored beside the wrapped DEK |
 
 Verify the PRF salt with:
 
 ```bash
-printf 'tinywasm/keyring/prf/v1' | sha256sum
+printf 'webtyp/keyring/prf/v1' | sha256sum
 # 6d35c3fda7627a4073ad57f21fe5f7829babf0080e494e3dcd7e2c15c1cbea32
 ```
 
@@ -96,7 +96,7 @@ printf 'tinywasm/keyring/prf/v1' | sha256sum
 - **HTTPS or localhost.** `crypto.subtle` is undefined on insecure origins, and
   the backend reports exactly that rather than a generic failure.
 - **Call from a goroutine.** `Set`/`Get`/`Delete`/`EnrollPasskey`/
-  `UnlockWithPasskey` block on JS promises via `github.com/tinywasm/await`.
+  `UnlockWithPasskey` block on JS promises via `webtyp.com/await`.
   Calling them from the wasm main function, or directly inside a JS event
   callback, deadlocks the page.
 - **Ceremonies need a user gesture.** `EnrollPasskey` and `UnlockWithPasskey`

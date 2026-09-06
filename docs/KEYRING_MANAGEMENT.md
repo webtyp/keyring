@@ -1,6 +1,6 @@
 # Gestión de secretos (keyring)
 
-`tinywasm/keyring` proporciona almacenamiento seguro de credenciales sobre cuatro backends:
+`webtyp/keyring` proporciona almacenamiento seguro de credenciales sobre cuatro backends:
 Windows Credential Manager, macOS Keychain, Linux Secret Service y Navegador (WebCrypto + IndexedDB).
 
 ## API
@@ -9,8 +9,8 @@ Windows Credential Manager, macOS Keychain, Linux Secret Service y Navegador (We
 
 ```go
 import (
-    "github.com/tinywasm/keyring"
-    "github.com/tinywasm/keyring/linux"
+    "webtyp.com/keyring"
+    "webtyp.com/keyring/linux"
 )
 
 kr, err := keyring.NewKeyring("my-app", linux.New())
@@ -27,7 +27,7 @@ kr.Delete("github_token")            // borrar
 ### Selección automática (shortcut `auto`)
 
 ```go
-import keyring "github.com/tinywasm/keyring/auto"
+import keyring "webtyp.com/keyring/auto"
 
 kr := keyring.OpenKeyring("my-app")
 ```
@@ -36,8 +36,8 @@ kr := keyring.OpenKeyring("my-app")
 
 ```go
 import (
-    "github.com/tinywasm/keyring"
-    "github.com/tinywasm/keyring/auto"
+    "webtyp.com/keyring"
+    "webtyp.com/keyring/auto"
 )
 
 km := keyring.New(auto.Provider())
@@ -50,7 +50,7 @@ Las operaciones pasan por la interfaz `Provider`. Los tests inyectan un proveedo
 
 ## Requisitos del sistema
 
-- **Linux**: Secret Service sobre `tinywasm/dbus` (`gnome-keyring` auto-instalable con `Ensure`).
+- **Linux**: Secret Service sobre `webtyp/dbus` (`gnome-keyring` auto-instalable con `Ensure`).
 - **Windows**: Credential Manager vía `advapi32.dll`.
 - **macOS**: Keychain vía `/usr/bin/security`.
 - **Navegador**: WebCrypto API e IndexedDB vía `syscall/js`.

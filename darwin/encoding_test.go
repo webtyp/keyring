@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 func TestQuote(t *testing.T) {

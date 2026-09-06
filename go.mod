@@ -1,11 +1,11 @@
-module github.com/tinywasm/keyring
+module webtyp.com/keyring
 
 go 1.25.2
 
 require (
-	github.com/tinywasm/await v0.1.0
-	github.com/tinywasm/dbus v0.1.0
-	github.com/tinywasm/webauthn v0.1.1
+	webtyp.com/await v0.1.0
+	webtyp.com/dbus v0.1.0
+	webtyp.com/webauthn v0.1.1
 )
 
-require github.com/tinywasm/base64 v0.0.5 // indirect
+require webtyp.com/base64 v0.0.5 // indirect

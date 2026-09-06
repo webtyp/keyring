@@ -2,7 +2,7 @@
 
 package auto
 
-import "github.com/tinywasm/keyring"
+import "webtyp.com/keyring"
 
 // Provider returns Fallback on unsupported platforms.
 func Provider() keyring.Provider { return keyring.Fallback{} }

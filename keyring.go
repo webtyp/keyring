@@ -14,7 +14,7 @@ type Keyring struct {
 // Ensurer.
 //
 // Callers that do not care which backend they get can use
-// github.com/tinywasm/keyring/auto, which picks one for the target platform.
+// webtyp.com/keyring/auto, which picks one for the target platform.
 func NewKeyring(service string, p Provider) (*Keyring, error) {
 	k := &Keyring{
 		service:  service,

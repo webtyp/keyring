@@ -3,7 +3,7 @@ package auto
 import (
 	"testing"
 
-	"github.com/tinywasm/keyring"
+	"webtyp.com/keyring"
 )
 
 func TestFindModulePathFindsOwnGoMod(t *testing.T) {
@@ -11,7 +11,7 @@ func TestFindModulePathFindsOwnGoMod(t *testing.T) {
 	if err != nil {
 		t.Fatalf("findModulePath(\".\") error: %v", err)
 	}
-	want := "github.com/tinywasm/keyring"
+	want := "webtyp.com/keyring"
 	if got != want {
 		t.Fatalf("findModulePath(\".\") = %q, want %q", got, want)
 	}
@@ -24,7 +24,7 @@ func TestFindModulePathWalksUpFromSubdir(t *testing.T) {
 		// fallback: use location that definitely walks up
 		t.Fatalf("findModulePath(\"./auto\") error: %v", err)
 	}
-	want := "github.com/tinywasm/keyring"
+	want := "webtyp.com/keyring"
 	if got != want {
 		t.Fatalf("findModulePath(\"./auto\") = %q, want %q", got, want)
 	}
@@ -61,7 +61,7 @@ func TestOpenForModuleUsesModulePath(t *testing.T) {
 	t.Cleanup(func() { kr.Delete(probeKey) })
 
 	// Confirm OpenKeyring with explicit module path reads same value
-	kr2 := OpenKeyring("github.com/tinywasm/keyring")
+	kr2 := OpenKeyring("webtyp.com/keyring")
 	got, err := kr2.Get(probeKey)
 	if err != nil {
 		t.Fatalf("Get via explicit service failed: %v", err)

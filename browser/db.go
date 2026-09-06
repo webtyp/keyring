@@ -5,12 +5,12 @@ package browser
 import (
 	"syscall/js"
 
-	"github.com/tinywasm/await"
-	"github.com/tinywasm/keyring"
+	"webtyp.com/await"
+	"webtyp.com/keyring"
 )
 
 const (
-	dbName    = "tinywasm-keyring"
+	dbName    = "webtyp-keyring"
 	dbVersion = 1
 	storeKEK  = "kek"
 	storeSec  = "secrets"

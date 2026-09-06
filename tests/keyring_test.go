@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/tinywasm/keyring"
-	auto "github.com/tinywasm/keyring/auto"
+	"webtyp.com/keyring"
+	auto "webtyp.com/keyring/auto"
 )
 
 type ensurerMemProvider struct {
