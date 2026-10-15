@@ -2,6 +2,8 @@
 PLAN: "refactor!: delete the keyring:// .env marker (Scheme, IsReference)"
 EXECUTOR: jules
 REVIEWER: none
+STATUS: running
+SESSION: 7477854842414623046
 ---
 
 > Read AGENTS.md at the repo root before any change.
