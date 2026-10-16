@@ -34,6 +34,9 @@ kr, err := keyring.NewKeyring("my-app") // Secret Service, Keychain,
                                         // Credential Manager or browser
 ```
 
+A project declares its secrets in `config/deploy.go`; `webtyp/env` reads them
+from the module's keyring (`auto.OpenForModule`).
+
 A browser application does **not** import `auto` — it knows where it runs:
 
 ```go

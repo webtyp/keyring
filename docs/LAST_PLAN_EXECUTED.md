@@ -1,5 +1,5 @@
 ---
-PLAN: "feat: keyring:// .env marker convention and OpenForModule scoping"
+PLAN: "feat: OpenForModule scoping"
 EXECUTOR: jules
 REVIEWER: none
 ---
@@ -10,52 +10,26 @@ REVIEWER: none
 
 ## Part of a multi-repo wave
 
-This is one piece of `KEYRING_DOTENV_MASTER_PLAN.md` (orchestrator:
-`webtyp.com/app-releases`, `docs/KEYRING_DOTENV_MASTER_PLAN.md`). This
+This is one piece of the master plan (orchestrator:
+`webtyp.com/app-releases`, `docs/master_plan.md`). This
 piece has **no dependency on any other piece of that wave** — dispatch it
 immediately, in parallel with the `webtyp/kvdb` and `webtyp/tui` plans.
 `webtyp/env` and `webtyp/app` each depend on this publishing first.
 
 ## Why
 
-Some `.env` values are credentials (a client secret, a token) that must never
-sit in a plaintext file. The ecosystem's answer is: the `.env` line declares
-**which variable** needs a secret, never the secret itself —
-`IAM_CLIENT_SECRET=keyring://` — and the real value lives in the OS credential
-store via this package. Two things are still missing to make that usable by
-any consumer:
+A project declares its secrets in `config/deploy.go`; `webtyp/env` reads them from the module's keyring (`auto.OpenForModule`).
 
-1. Nothing names the marker string as a constant — every consumer would
-   invent its own literal, and per this ecosystem's rule a consumer never
-   re-derives a convention a library should own (see
-   `webtyp/app-releases/docs/CONSTRUCTION_HARNESS.md`, "Lego pieces, never
-   forks").
-2. `OpenKeyring(service)` (in `keyring/auto`) requires the caller to already
-   know its `service` namespace. `webtyp/env` and `webtyp/app` both need
-   to scope by "whatever Go module the current project is" with zero
-   configuration, so two different projects using the same variable name
-   (`IAM_CLIENT_SECRET` in both `misitio` and some other consumer) never
-   collide in the same OS keychain.
+`OpenKeyring(service)` (in `keyring/auto`) requires the caller to already
+know its `service` namespace. `webtyp/env` and `webtyp/app` both need
+to scope by "whatever Go module the current project is" with zero
+configuration, so two different projects using the same variable name
+(`IAM_CLIENT_SECRET` in both `misitio` and some other consumer) never
+collide in the same OS keychain.
 
 ## The change
 
-### 1. The marker — new file **`reference.go`** (package `keyring`, repo root)
-
-```go
-package keyring
-
-// Scheme is the .env marker meaning "this value lives in the keyring, not on
-// disk" — e.g. IAM_CLIENT_SECRET=keyring://. webtyp/env resolves it via
-// auto.OpenForModule; webtyp/app's SECRETS section is how a developer fills
-// it in. Full convention: KEYRING_DOTENV_MASTER_PLAN.md.
-const Scheme = "keyring://"
-
-// IsReference reports whether raw is exactly the Scheme marker rather than a
-// literal value already stored inline in the .env file.
-func IsReference(raw string) bool { return raw == Scheme }
-```
-
-### 2. Module-scoped opening — new file **`auto/module.go`** (package `auto`)
+### Module-scoped opening — new file **`auto/module.go`** (package `auto`)
 
 ```go
 package auto
@@ -122,11 +96,7 @@ error type for these two sentinels.
 
 ## Anti-footguns
 
-- **Do not** make `Scheme` configurable or add a variant syntax
-  (`keyring://<key>`, `keyring://<service>/<key>`) — the service is always the
-  caller's own module path (from `OpenForModule`) and the key is always the
-  `.env` variable name itself; encoding either into the marker string would
-  duplicate information every caller already has.
+- **Do not** add a variant syntax — the service is always the caller's own module path (from `OpenForModule`) and the key is always the variable name itself.
 - **`auto/module.go` is `!wasm` implicitly** — `os.ReadFile`/`filepath` already
   behave correctly there; do not add a build tag that does not already exist
   on the other files in `keyring/auto`.
@@ -134,12 +104,6 @@ error type for these two sentinels.
   separate plans in the same wave that depend on this one.
 
 ## Tests
-
-File: **`reference_test.go`** (new, package `keyring`, repo root).
-
-| Test | Asserts |
-|---|---|
-| `TestIsReference` | `IsReference("keyring://")` is `true`; `IsReference("keyring://foo")` is `false`; `IsReference("")` is `false`; `IsReference("https://example.com")` is `false` |
 
 File: **`auto/module_test.go`** (new, package `auto`).
 
@@ -170,12 +134,10 @@ machine actually has"). So any test that calls `OpenForModule` and then
 
 - [ ] `go build ./...` and `go vet ./...` clean.
 - [ ] `go test ./...` green, including all new tests.
-- [ ] `grep -n "const Scheme" reference.go` → one match.
 - [ ] `grep -n "func OpenForModule" auto/module.go` → one match.
-- [ ] `grep -rn "keyring:// \|keyring://<" .` outside `reference.go`/`module.go`/tests → empty: the marker is defined in exactly one place.
 
 ## Out of scope
 
-`webtyp/env` resolving the marker, and `webtyp/app`'s interactive section
+resolving secrets via `webtyp/env`, and `webtyp/app`'s interactive section
 for filling in a missing secret — both are separate plans in this wave,
 dispatched once this one publishes.
