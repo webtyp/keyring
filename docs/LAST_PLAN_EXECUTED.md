@@ -1,5 +1,5 @@
 ---
-PLAN: "feat: keyring:// .env marker convention and OpenForModule scoping"
+PLAN: "feat: OpenForModule scoping"
 EXECUTOR: jules
 REVIEWER: none
 ---
@@ -20,31 +20,16 @@ immediately, in parallel with the `webtyp/kvdb` and `webtyp/tui` plans.
 
 A project declares its secrets in `config/deploy.go`; `webtyp/env` reads them from the module's keyring (`auto.OpenForModule`).
 
-1. Nothing names the marker string as a constant — every consumer would
-   invent its own literal, and per this ecosystem's rule a consumer never
-   re-derives a convention a library should own (see
-   `webtyp/app-releases/docs/CONSTRUCTION_HARNESS.md`, "Lego pieces, never
-   forks").
-2. `OpenKeyring(service)` (in `keyring/auto`) requires the caller to already
-   know its `service` namespace. `webtyp/env` and `webtyp/app` both need
-   to scope by "whatever Go module the current project is" with zero
-   configuration, so two different projects using the same variable name
-   (`IAM_CLIENT_SECRET` in both `misitio` and some other consumer) never
-   collide in the same OS keychain.
+`OpenKeyring(service)` (in `keyring/auto`) requires the caller to already
+know its `service` namespace. `webtyp/env` and `webtyp/app` both need
+to scope by "whatever Go module the current project is" with zero
+configuration, so two different projects using the same variable name
+(`IAM_CLIENT_SECRET` in both `misitio` and some other consumer) never
+collide in the same OS keychain.
 
 ## The change
 
-### 1. The marker — new file **`reference.go`** (package `keyring`, repo root)
-
-```go
-package keyring
-
-
-
-
-```
-
-### 2. Module-scoped opening — new file **`auto/module.go`** (package `auto`)
+### Module-scoped opening — new file **`auto/module.go`** (package `auto`)
 
 ```go
 package auto
@@ -119,12 +104,6 @@ error type for these two sentinels.
   separate plans in the same wave that depend on this one.
 
 ## Tests
-
-File: **`reference_test.go`** (new, package `keyring`, repo root).
-
-| Test | Asserts |
-|---|---|
-
 
 File: **`auto/module_test.go`** (new, package `auto`).
 
