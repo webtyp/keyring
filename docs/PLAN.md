@@ -2,8 +2,10 @@
 PLAN: "refactor!: delete the keyring:// .env marker (Scheme, IsReference)"
 EXECUTOR: jules
 REVIEWER: none
-STATUS: running
+STATUS: review
 SESSION: 7477854842414623046
+PR: https://github.com/webtyp/keyring/pull/2
+REVIEWED_COMMIT: 606387edac7dfd2811b63ff3672783fcc56129bc
 ---
 
 > Read AGENTS.md at the repo root before any change.
