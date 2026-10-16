@@ -1,6 +1,7 @@
 package auto
 
 import (
+	"strings"
 	"testing"
 
 	"webtyp.com/keyring"
@@ -53,8 +54,8 @@ func TestOpenForModuleUsesModulePath(t *testing.T) {
 	const probeValue = "probe-value-123"
 
 	if err := kr.Set(probeKey, probeValue); err != nil {
-		if err == keyring.ErrUnavailable || err == keyring.ErrUnsupported || err == keyring.ErrNoProvider {
-			t.Skipf("keyring unavailable/unsupported: %v", err)
+		if err == keyring.ErrUnavailable || err == keyring.ErrUnsupported || err == keyring.ErrNoProvider || strings.Contains(err.Error(), "DBUS_SESSION_BUS_ADDRESS is not set") {
+			t.Skipf("keyring unavailable/unsupported (acceptable in CI): %v", err)
 		}
 		t.Fatalf("Set probe key failed: %v", err)
 	}
